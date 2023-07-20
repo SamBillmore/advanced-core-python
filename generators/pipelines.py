@@ -31,35 +31,32 @@ at a time, each time the user hits 'Enter'
 
 def list_files(path):
     """Return all the files located in `path`"""
-    files = []
     for filename in os.listdir(path):
-        files.append(os.path.join(path, filename))  # Create the full path
-    return files
+        yield os.path.join(path, filename)  # Create the full path
 
 
 def filter_extension(filenames, extension):
     """Return only the filenames with the extension provided"""
-    return [
+    return (
         path
         for path in filenames
         if '.' in path
         and path.split('.')[-1] == extension
-    ]
+    )
 
 
 def read_lines(filenames):
     """Return all of the lines from all the filenames"""
-    file_lines = []
     for filename in filenames:
         print(f"Reading file: {filename}\n")
         with open(filename) as file:
-            file_lines += file.readlines()
-    return file_lines
+            for item in file:
+                yield item
 
 
 def grep(lines, pattern):
     """Filter the lines to only those containing the pattern specified"""
-    return [line for line in lines if pattern in line]
+    return (line for line in lines if pattern in line)
 
 
 # DON'T EDIT THE CODE BELOW THIS LINE

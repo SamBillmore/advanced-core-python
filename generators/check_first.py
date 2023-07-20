@@ -19,7 +19,12 @@ item, along with a generator that produces the original set of values.
 
 def check_first(generator):
     first_item = next(generator)
-    return first_item, generator
+    return first_item, recreate_generator(first_item, generator)
+
+
+def recreate_generator(first_item, generator):
+    yield first_item
+    yield from generator
 
 
 # DON'T EDIT THE CODE BELOW THIS LINE

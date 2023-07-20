@@ -48,7 +48,12 @@ def fibonacci_numbers_list(n):
 
 def fibonacci_numbers_generator(n):
     """Generator function to produce the first n Fibonacci numbers"""
-    pass  # TODO: Update this function to return a Fibonacci generator
+    previous = 0
+    current = 1
+
+    for _ in range(n):
+        yield current
+        previous, current = current, (previous + current)
 
 
 # DON'T EDIT THE CODE BELOW THIS LINE (except to uncomment the function call)
@@ -68,8 +73,8 @@ def test_fibonacci(fibonacci_fun, count):
     print(f"This calculation took {1000 * duration:.01f}ms")
 
 
-COUNT = 10_000
+COUNT = 100_000
 
 
 test_fibonacci(fibonacci_numbers_list, COUNT)
-# test_fibonacci(fibonacci_numbers_generator, COUNT)
+test_fibonacci(fibonacci_numbers_generator, COUNT)

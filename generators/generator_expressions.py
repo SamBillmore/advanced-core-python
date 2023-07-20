@@ -16,6 +16,9 @@ allocated for the list comprehension and the generator expression.
 * The final output displays the first few results from the generator, and then
 the number of items in the list comprehension and the generator expression. If
 these numbers are different, why do you think that is?
+
+Answer: because call `next` on generator before printing the length.
+Aka, already used part of generator.
 """
 
 LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -32,7 +35,11 @@ three_letter_combos_list = [
 
 
 # TODO: Update this definition
-three_letter_combos_generator = None
+three_letter_combos_generator = (
+    letter_1 + letter_2 + letter_3
+    for letter_1 in LETTERS
+    for letter_2 in LETTERS
+    for letter_3 in LETTERS)
 
 
 # DON'T EDIT THE CODE BELOW THIS LINE
