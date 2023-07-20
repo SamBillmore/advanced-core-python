@@ -51,12 +51,17 @@ or consonant (False).
 
 def select_countdown_letters():
     letters = ''
+    iter_vowels = iter(VOWELS)
+    iter_consonants = iter(CONSONANTS)
 
     for _ in range(9):
         if vowel_requested():
-            next_letter = VOWELS.pop()
+            try:
+                next_letter = next(iter_vowels)
+            except StopIteration:
+                next_letter = next(iter_consonants)
         else:
-            next_letter = CONSONANTS.pop()
+            next_letter = next(iter_consonants)
 
         letters += next_letter
         print('Your letters are:', letters)

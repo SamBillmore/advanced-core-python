@@ -21,6 +21,20 @@ class InfiniteCycle:
     def __init__(self, items):
         self.items = items
 
+    def __iter__(self):
+        return InfiniteCycleIterator(self.items)
+    
+
+class InfiniteCycleIterator:
+    def __init__(self, items):
+        self.current_index = 0
+        self.items = items
+
+    def __next__(self):
+        return_val = self.items[self.current_index]
+        self.current_index = (self.current_index + 1) % len(self.items)
+        return return_val
+
 
 # DO NOT EDIT ANY CODE BELOW HERE
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

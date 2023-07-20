@@ -37,8 +37,27 @@ class ShoppingBasket:
     def __init__(self):
         self.items = []
 
+    def __iter__(self):
+        # return iter(self.items)
+        return ShoppingBasketIterator(self.items)
+
     def add_item(self, item):
         self.items.append(item)
+
+
+class ShoppingBasketIterator:
+    def __init__(self, items):
+        self.items = items
+        self.current_index = 0
+
+    def __next__(self):
+        if self.current_index >= len(self.items):
+            raise StopIteration
+        
+        this_item = self.items[self.current_index]
+        self.current_index += 1
+
+        return this_item.name
 
 
 my_basket = ShoppingBasket()
@@ -48,6 +67,11 @@ my_basket.add_item(Item("Lightbulb", 4.00))
 my_basket.add_item(Item("Tofu", 3.20))
 
 
+# print("\nShopping basket contains:")
+# for item in my_basket:
+#     print(item.name)
+
+
 print("\nShopping basket contains:")
-for item in my_basket:
-    print(item.name)
+for item_name in my_basket:
+    print(item_name)

@@ -39,10 +39,19 @@ class CustomRange:
         self.transform = transform
 
     def __iter__(self):
-        pass
+        self.current_value = self.start
+        return self
 
     def __next__(self):
-        pass
+        if self.current_value >= self.end:
+            raise StopIteration
+        
+        return_item = self.current_value
+        self.current_value = self.transform(self.current_value)
+    
+        return return_item
+
+
 
 
 # This should print odd numbers between 40 and 50: 41, 43, 45 etc.
