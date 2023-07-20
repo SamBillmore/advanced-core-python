@@ -26,14 +26,21 @@ either return a status code (e.g. 200) or raise a ConnectionError.
 
 # Client is a class which simulates fake 'ping's to a web server
 from utils import ping
+import functools
 
 
 def catch_errors(func):
     """A decorator that will catch and print any errors raised by func"""
-     # TODO: Properly implement this decorator function
-    return func
+    @functools.wraps(func)  # Ensures the __name__ and __doc__ information returned is for func not for wrapper
+    def wrapper(*args, **kwargs):  # Takes args and kwargs of original function
+        try:
+            return func(*args, **kwargs)  # Returns value of original function
+        except Exception as error:
+            print("ERROR:", error)
+    return wrapper
 
 
+@catch_errors
 def send_ping():
     print("Sending ping to server...", end='\t', flush=True)
     response = ping()

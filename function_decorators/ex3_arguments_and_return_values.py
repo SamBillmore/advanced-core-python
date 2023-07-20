@@ -20,7 +20,7 @@ The `product` function takes a collection of items, and calculates their product
 
 from ex2_decorator_functions import catch_errors
 
-
+@catch_errors
 def product(collection, inverse=False):
     result = 1
     for value in collection:

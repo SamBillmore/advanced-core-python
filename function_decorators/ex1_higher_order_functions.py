@@ -30,8 +30,9 @@ from utils import titlecase, remove_spaces, lowercase_first_letter
 
 
 def chain(function_1, function_2):
-    pass  # TODO: Write the body of this function, and update its return value
-    return function_1
+    def wrapper(value):
+        return function_2(function_1(value))
+    return wrapper
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,7 +57,14 @@ PART 2 - Make chain accept a generic number of functions
   arguments, it takes an arbitrary number of functions using `*args`.
 """
 
-if False:  # TODO: Change this condition to True to attempt part 2
+def chain(*functions):
+    def wrapper(value):
+        for function in functions:
+            value = function(value)
+        return value
+    return wrapper
+
+if True:  # TODO: Change this condition to True to attempt part 2
     lower_camelcase = chain(titlecase, remove_spaces, lowercase_first_letter)
 
     print("Lower Camelcase Name:", lower_camelcase(name))
@@ -77,6 +85,10 @@ PART 3 - Optional
   (reverse is an optional keyword argument to the built-in sorted function)
 """
 
+def chain(function_1, function_2):
+    def wrapper(*args, **kwargs):
+        return function_2(function_1(*args, **kwargs))
+    return wrapper
 
 
 

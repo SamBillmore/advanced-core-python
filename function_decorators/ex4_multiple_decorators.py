@@ -32,6 +32,11 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 
+# Part 4:
+# ping = debug(ping)
+
+
+@debug
 def get_log_level(status_code):
     if status_code == 200:
         level, message = logging.INFO, "Ping successful"
@@ -40,6 +45,10 @@ def get_log_level(status_code):
     return level, message
 
 
+# Order:
+@debug  # Only used in development and will be commented out in production
+@log_duration  # Don't want differences in duration depending whether debug is being used
+@catch_errors  # Last as don't want to catch errors in decorators
 def check_connection():
     status_code = ping()
     if status_code is None:
