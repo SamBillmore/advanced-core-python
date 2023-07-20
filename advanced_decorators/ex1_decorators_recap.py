@@ -18,13 +18,21 @@ limiting the calls to `send_ping` (so calls will be at least 1 second apart).
 
 import logging
 import time
+import functools
 
 from utils import ping
 
 
 # TODO: Write the `add_delay` decorator here
+def add_delay(func):
+    @functools.wrap(func)
+    def wrapper(*args, **kwargs):
+        time.sleep(1)
+        return func(*args, **kwargs)
+    return wrapper
 
 
+@add_delay
 def send_ping(url):
     logging.info("Sending ping to %s...", url)
     response = ping(url)

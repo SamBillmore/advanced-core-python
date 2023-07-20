@@ -28,8 +28,20 @@ logger.setLevel(logging.INFO)
 
 # TODO: write a decorator called register_instances, and use it to add an
 # `all_instances` attribute to the StatusMonitor class.
+def register_instances(cls):
+    cls.all_instances = []  # A list that is connected with each instance of the class
+    original_init = cls.__init__
+
+    def __new_init__(self, *args, **kwargs):
+        cls.all_instances.append(self)
+        original_init(self, *args, **kwargs)
+
+    cls.__init__ = __new_init__
+    return cls
 
 
+
+@register_instances
 class StatusMonitor:
     def __init__(self, url):
         self.url = url

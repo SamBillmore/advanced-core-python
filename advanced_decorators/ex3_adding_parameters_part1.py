@@ -19,14 +19,37 @@ from exercise 1 as a starting point.
 
 import logging
 import time
+import functools
 
 from utils import ping
 
 
-# TODO: Write your new `add_delay` decorator here.
+# TODO: Write your new `add_delay` decorator here as a function
+# def add_delay(delay_param):
+#    def add_delay_parametrised(func):
+#       @functools.wraps(func)
+#       def wrapper(*args, **kwargs):
+#          time.sleep(delay_param)
+#          return func(*args, **kwargs)
+#       return wrapper
+#    return add_delay_parametrised
 
 
-# @add_delay(1.5)
+# TODO: Write your new `add_delay` decorator here as a class
+# A better option for parametrised decorators
+class add_delay:
+    def __init__(self, delay):
+        self.delay = delay
+
+    def __call__(self, func):
+      @functools.wraps(func)  # functools returns the correct thing here as it is decorating a function (closure)
+      def wrapper(*args, **kwargs):
+         time.sleep(self.delay)
+         return func(*args, **kwargs)
+      return wrapper
+
+
+@add_delay(3)
 def send_ping(url):
     logging.info("Sending ping to %s...", url)
     response = ping(url)

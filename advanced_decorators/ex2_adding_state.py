@@ -27,13 +27,38 @@ apart.
 
 import logging
 import time
+import functools
 
 from utils import ping
 
 
 # TODO: write the rate_limit decorator here
+class _rate_limit():
+   def __init__(self, func):
+      self.func = func
+      self.last_run = 0
+
+   def __call__(self, *args, **kwargs):
+      current_time = time.time()
+      time_since_last_run = current_time - self.last_run
+      if time_since_last_run < 1:
+         sleep_time = 1 - time_since_last_run
+         time.sleep(sleep_time)
+      self.last_run = time.time()
+      return self.func(*args, **kwargs)
+   
+# Used to make sure functools is returning the correct things
+def rate_limit(func):
+    r_l = _rate_limit(func)
+
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        return r_l(*args, **kwargs)
+
+    return wrapper
 
 
+@rate_limit
 def send_ping(url):
     logging.info("Sending ping to %s...", url)
     start = time.time()
